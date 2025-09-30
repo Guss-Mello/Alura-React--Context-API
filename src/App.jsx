@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useState, useEffect } from "react";
 import { CarrinhoProvider } from "./context/CarrinhoContext";
 import Home from "./pages/Home";
 import Carrinho from "./pages/Carrinho";
