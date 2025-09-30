@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { CarrinhoContext } from "@/context/CarrinhoContext";
 import { useEffect } from "react";
 
@@ -58,20 +58,24 @@ export const useCarrinhoContext = () => {
     setCarrinho(produto);
   }
 
+    const { totalTemp, quantidadeTemp } = useMemo(() => {
+      return carrinho.reduce(
+        (acumulador, produto) => ({
+          quantidadeTemp: acumulador.quantidadeTemp + produto.quantidade,
+          totalTemp: acumulador.totalTemp + produto.preco * produto.quantidade,
+        }),
+        {
+          quantidadeTemp: 0,
+          totalTemp: 0,
+        }
+      );
+    }, [carrinho]);
+
   useEffect(() => {
-    const { totalTemp, quantidadeTemp } = carrinho.reduce(
-      (acumulador, produto) => ({
-        quantidadeTemp: acumulador.quantidadeTemp + produto.quantidade,
-        totalTemp: acumulador.totalTemp + produto.preco * produto.quantidade,
-      }),
-      {
-        quantidadeTemp: 0,
-        totalTemp: 0,
-      }
-    );
+
     setQuantidade(quantidadeTemp);
     setValorTotal(totalTemp);
-  }, [carrinho]);
+  });
 
   return {
     carrinho,
